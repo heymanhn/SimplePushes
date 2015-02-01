@@ -1,0 +1,28 @@
+{
+  "name": "SimplePushes",
+  "version": "1.0.0",
+  "description": "Given a location, returns simple doses of relevant information about the location.",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/heymanhn/SimplePushes.git"
+  },
+  "keywords": [
+    "search",
+    "simple",
+    "pushes"
+  ],
+  "author": "Herman Ng",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/heymanhn/SimplePushes/issues"
+  },
+  "homepage": "https://github.com/heymanhn/SimplePushes",
+  "dependencies": {
+    "colors": "^1.0.3",
+    "express": "^4.11.1"
+  }
+}
