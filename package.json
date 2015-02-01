@@ -23,6 +23,7 @@
   "homepage": "https://github.com/heymanhn/SimplePushes",
   "dependencies": {
     "colors": "^1.0.3",
-    "express": "^4.11.1"
+    "express": "^4.11.1",
+    "underscore": "^1.7.0"
   }
 }

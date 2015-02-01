@@ -1,24 +1,8 @@
 // weather.js - uses forecast.io API
 
-var API_KEY = '4c828d83449749a88110b377f01b6d5a',
-		LAT = '37.7833',
-		LNG = '-122.4167',
-		https = require('https');
-
-var options = {
-	host: 'api.forecast.io',
-	method: 'GET',
-	path: '/forecast/' + API_KEY + '/' + LAT + ',' + LNG
-};
-
-// Once the forecasts are extracted, call this function
-var printForecasts = function() {
-	console.log('Current weather is:');
-	console.log(forecasts.currently);
-
-	console.log('Hourly forecasts for next 12 hours:');
-	console.log(forecasts.hourly);
-};
+var _ = require('underscore'),
+		https = require('https'),
+		API_KEY = '4c828d83449749a88110b377f01b6d5a';
 
 var extractData = function(forecast) {
 	return {
@@ -32,7 +16,13 @@ var extractData = function(forecast) {
 	};
 };
 
-module.exports.getWeather = function(cb) {
+module.exports.getWeather = function(location, cb) {
+	var options = {
+		host: 'api.forecast.io',
+		method: 'GET',
+		path: '/forecast/' + API_KEY + '/' + location.lat + ',' + location.lng
+	};
+
 	var req = https.request(options, function(res) {
 		var forecasts = {}, forecastJSON = "";
 		res.setEncoding('utf8');
