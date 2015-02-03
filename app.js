@@ -1,16 +1,14 @@
-var colors = require('colors'),
+var bart = require('./bart'),
+		colors = require('colors'),
 		express = require('express'),
+		promise = require('promised-io/promise'),
 		weather = require('./weather');
 
 var app = express();
 
 app.get('/api/search', function(req, res) {
 	var origin, destination;
-	var outputForecasts = function(forecasts) {
-		res.send({
-			weather: forecasts
-		});
-	};
+
 	console.log("GET /api/search request".blue);
 
 	if (!req.query['origin'])
@@ -27,7 +25,18 @@ app.get('/api/search', function(req, res) {
 		lng: req.query['destination'].split(',')[1]
 	};
 
-	weather.getWeather(destination, outputForecasts);
+	var weatherPromise = weather.getWeather(destination);
+	var bartPromise = bart.getBART(origin);
+	var completedPromise = promise.all(weatherPromise, bartPromise);
+	completedPromise.then(function(results) {
+		debugger;
+		res.send({
+			weather: results[0],
+			bart: results[1]
+		});
+	}, function(errors) {
+		return res.status(400).send('Error: ' + errors);
+	});
 });
 
 var server = app.listen(3000, function () {

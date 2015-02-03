@@ -2,6 +2,7 @@
 
 var _ = require('underscore'),
 		https = require('https'),
+		Deferred = require('promised-io/promise').Deferred,
 		API_KEY = '4c828d83449749a88110b377f01b6d5a';
 
 var extractData = function(forecast) {
@@ -16,7 +17,8 @@ var extractData = function(forecast) {
 	};
 };
 
-module.exports.getWeather = function(location, cb) {
+module.exports.getWeather = function(location) {
+	var deferred = new Deferred();
 	var options = {
 		host: 'api.forecast.io',
 		method: 'GET',
@@ -49,14 +51,17 @@ module.exports.getWeather = function(location, cb) {
 				forecasts.hourly = hourlyForecasts;
 			}
 
-			return cb(forecasts);
+			deferred.resolve(forecasts);
 		});
 	});
 
 	req.on('error', function(e) {
 		console.log('ERROR: ' + e.message);
+		return deferred.reject(e);
 	});
 
 	req.end();
+
+	return deferred.promise;
 };
 
